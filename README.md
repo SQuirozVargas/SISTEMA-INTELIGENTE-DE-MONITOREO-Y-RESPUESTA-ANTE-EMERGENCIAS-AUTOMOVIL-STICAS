@@ -1,32 +1,24 @@
 # SISTEMA INTELIGENTE DE MONITOREO Y RESPUESTA ANTE EMERGENCIAS AUTOMOVILSTICAS
 Sistema embebido basado en ESP32 que monitorea en tiempo real el estado físico del conductor, detectando fatiga, desmayo, somnolencia y anomalías cardíacas, con envío automático de alertas geolocalizadas mediante Telegram y registro en una base de datos accesible por panel web. Incluye además un módulo de botón de pánico para situaciones de riesgo como un posible secuestro.
 
-Estructura del repositorio
+# Estructura del repositorio
 Proyecto_Embebidos/
-├── platformio.ini              # Configuracion del proyecto ESP32 (PlatformIO)
-├── src/
-│   ├── main.cpp                 # Logica principal del ESP32
-│   ├── database.cpp / .h        # Envio de datos al servidor
-│   ├── telegram.cpp / .h        # Envio de alertas por Telegram
-│   └── apwifieeprommode.h       # Portal de configuracion WiFi (Access Point)
-├── servidor/
-│   ├── servidor.py              # Backend Flask (API + conexion a MySQL)
-│   └── index.html               # Dashboard web de monitoreo
-├── include/                     # Headers adicionales del proyecto ESP32
-├── lib/                         # Librerias locales del proyecto (si aplica)
-└── diagram.json                 # Diagrama de simulacion (Wokwi, si aplica)
+platformio.ini              # Configuracion del proyecto ESP32 (PlatformIO)
+## /src
+main.cpp                 # Logica principal del ESP32
+database.cpp / .h        # Envio de datos al servidor
+telegram.cpp / .h        # Envio de alertas por Telegram
+apwifieeprommode.h       # Portal de configuracion WiFi (Access Point)
+## servidor/
+servidor.py              # Backend Flask (API + conexion a MySQL)
+index.html               # Dashboard web de monitoreo
 
-Nota: el script de detección de somnolencia para la Raspberry Pi (deteccion_somnolencia.py) y los archivos de audio del módulo DFPlayer Mini (0001.mp3 a 0009.mp3) se gestionan por separado — ver secciones correspondientes más abajo para su ubicación y configuración.
 
-Arquitectura general
-Raspberry Pi (camara + OpenCV)  --señal digital GPIO-->  ESP32
-                                                              |
-                                                    WiFi / HTTP
-                                                              |
-                                          Telegram  <-----+----->  Servidor Flask + MySQL
-                                                                              |
-                                                                     Dashboard web (index.html)
-Requisitos
+# Nota: 
+El script de detección de somnolencia para la Raspberry Pi (deteccion_somnolencia.py) y los archivos de audio del módulo DFPlayer Mini (0001.mp3 a 0009.mp3) se gestionan por separado — ver secciones correspondientes más abajo para su ubicación y configuración.
+
+
+# Requisitos
 Hardware
 ESP32 DevKitC
 Raspberry Pi (Model B, 2GB RAM o superior) con cámara USB
@@ -41,23 +33,12 @@ Visual Studio Code con la extensión PlatformIO
 Python 3.x en la Raspberry Pi, con OpenCV y gpiozero
 Python 3.x para el servidor, con Flask y mysql-connector-python
 MySQL Server
-Instalación y configuración
+# Instalación y configuración
 1. Configurar credenciales (antes de compilar)
 
-Este proyecto requiere un archivo src/secrets.h que no se incluye en el repositorio por seguridad. Créalo con el siguiente contenido, reemplazando los valores por los tuyos:
-
+Este proyecto requiere un archivo src/secrets.h que no se incluye en el repositorio por seguridad. Créalo con el siguiente contenido, reemplazando los valores por los tuyos.
 cpp
-#ifndef SECRETS_H
-#define SECRETS_H
 
-#define WIFI_SSID "tu_red_wifi"
-#define WIFI_PASSWORD "tu_password_wifi"
-#define TELEGRAM_TOKEN "tu_token_de_bot_telegram"
-#define TELEGRAM_CHAT_ID "tu_chat_id"
-#define GOOGLE_API_URL "https://www.googleapis.com/geolocation/v1/geolocate?key=TU_API_KEY"
-#define SERVIDOR_URL "http://TU_IP_LOCAL:5000/emergencia"
-
-#endif
 2. ESP32 (firmware principal)
 Abre la carpeta raíz del proyecto (Proyecto_Embebidos/) en VS Code.
 Verifica que la extensión PlatformIO reconozca el platformio.ini.

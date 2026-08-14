@@ -68,12 +68,11 @@ bash
    sudo apt update
    sudo apt install python3-opencv python3-gpiozero -y
 Descarga los clasificadores Haar Cascade necesarios en la misma carpeta del script:
-bash
-   wget https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml
-   wget https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_eye.xml
+
 Ejecuta el script:
 bash
    python3 deteccion_somnolencia.py
+   
 5. Módulo de audio (DFPlayer Mini)
 Formatea una tarjeta microSD en FAT32.
 Copia en la raíz de la tarjeta los archivos 0001.mp3 a 0009.mp3 correspondientes a cada mensaje de alerta del sistema.
